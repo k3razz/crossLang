@@ -14,5 +14,6 @@
   "UI_RESTART_QUESTION": "For apply settings you should to restart launcher. Restarting launcher?",
   "UI_DOWNLOAD_REQUEST": "Download",
   "UI_DOWNLOADING": "Downloading",
-  "UI_GAME_PATH": "Game Path"
+  "UI_GAME_PATH": "Game Path",
+  "UI_VERSION_LAUNCHED": "LAUNCHED"
 }
