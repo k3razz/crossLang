@@ -1,0 +1,18 @@
+{
+  "lang_name": "RU",
+  "UI_LATEST_NEWS": "ПОСЛЕДНИЕ НОВОСТИ",
+  "UI_LAUNCH": "ЗАПУСТИТЬ",
+  "UI_READY_TO_LAUNCH": "ГОТОВО К ЗАПУСКУ",
+  "UI_VERSION": "Версия",
+  "UI_SETTINGS": "НАСТРОЙКИ",
+  "UI_HIDE_TO_TRAY": "Сворачивать в трей при закрытии",
+  "UI_AUTO_START": "Автозапуск при старте Windows",
+  "UI_INTERFACE_SCALE": "Масштаб интерфейса",
+  "UI_SAVE": "Сохранить",
+  "UI_RESTART_NOW": "Перезапустить сейчас",
+  "UI_RESTART_LATER": "Позже",
+  "UI_RESTART_QUESTION": "Для применения настроек требуется перезапуск. Перезапустить сейчас?"
+  "UI_DOWNLOAD_REQUEST": "Установить",
+  "UI_DOWNLOADING": "Загрузка",
+  "UI_GAME_PATH": "Корневая папка игры",
+}

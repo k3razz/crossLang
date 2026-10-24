@@ -1,0 +1,18 @@
+{
+  "lang_name": "ENG",
+  "UI_LATEST_NEWS": "LATEST NEWS",
+  "UI_LAUNCH": "LAUNCH",
+  "UI_READY_TO_LAUNCH": "READY TO LAUNCH",
+  "UI_VERSION": "Version",
+  "UI_SETTINGS": "SETTINGS",
+  "UI_HIDE_TO_TRAY": "Hide to tray on close",
+  "UI_AUTO_START": "Autorun on Windows start",
+  "UI_INTERFACE_SCALE": "UI scale",
+  "UI_SAVE": "Save",
+  "UI_RESTART_NOW": "Restart now",
+  "UI_RESTART_LATER": "Later",
+  "UI_RESTART_QUESTION": "For apply settings you should to restart launcher. Restarting launcher?"
+  "UI_DOWNLOAD_REQUEST": "Download",
+  "UI_DOWNLOADING": "Downloading",
+  "UI_GAME_PATH": "Game Path",
+}
