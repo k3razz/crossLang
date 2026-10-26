@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CrossLauncher — Скачать</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <canvas id="particles-canvas"></canvas>
+
+  <header>
+    <nav class="navbar" aria-label="Основная навигация">
+      <a class="brand" href="/"><span>Cross</span>Launcher</a>
+      <span class="nav-arrow" aria-hidden="true">▸</span>
+      <div class="nav-links">
+        <a href="/">Главная</a>
+        <span class="dot">•</span>
+        <a href="/html/about.html">О проекте</a>
+        <span class="dot">•</span>
+        <a class="active">Скачать</a>
+        <a href="/html/cabinet.html" class="account-link">Кабинет</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="content-container">
+    <div class="panel" style="text-align: center;">
+      <h1>Скачать <span>CrossLauncher</span></h1>
+      
+      <!-- Блок, который видят только авторизованные с ролью не USER -->
+      <div id="download-access" style="display: none; padding: 20px 0;">
+        <p style="font-size: 20px; margin-bottom: 30px; color: #b9d9f2;">Последняя версия лаунчера доступна для скачивания.</p>
+        <a href="https://github.com/k3razz/crossLang/releases/download/latest/CrossLauncher.exe" 
+           style="display: inline-block; padding: 15px 40px; background: #42b9ff; color: #000; font-size: 20px; font-weight: bold; text-decoration: none; border-radius: 12px; transition: background 0.2s;"
+           onmouseover="this.style.background='#5cc4ff'" 
+           onmouseout="this.style.background='#42b9ff'">
+          Скачать для Windows (.exe)
+        </a>
+      </div>
+
+      <!-- Блок, который видят USER'ы и неавторизованные -->
+      <div id="download-denied" style="display: none; padding: 20px 0;">
+        <div style="font-size: 60px; margin-bottom: 20px;">🛠️</div>
+        <h2 style="color: #fff; margin-bottom: 15px;">Лаунчер находится в бета-тесте</h2>
+        <p style="font-size: 18px; color: #b9d9f2; line-height: 1.5;">
+          На данный момент скачивание доступно только для участников тестирования.<br>
+          Пожалуйста, дождитесь официального релиза или получите специальную роль.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div>© 2026 CrossLauncher</div>
+    <div>CrossLauncher is not affiliated with Mojang Studios or Microsoft.</div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>
