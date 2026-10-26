@@ -2,7 +2,13 @@ name = "crosslauncher"
 main = "src/worker.js"
 compatibility_date = "2024-04-01"
 
-# Ассеты (статика) будут раздаваться воркером из корня проекта
+# База данных D1
+[[d1_databases]]
+binding = "DB"
+database_name = "crosslauncher-db"
+database_id = "018d4aff-c3a4-46fd-bccf-b3edbd35b61d" # Вставьте ID, который выдала команда d1 create
+
+# Статика
 [assets]
 directory = "."
 binding = "ASSETS"
