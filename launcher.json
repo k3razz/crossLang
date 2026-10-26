@@ -1,6 +1,6 @@
 {
   "latest": "1.1",
-  "changelog_url": "https://raw.githubusercontent.com/k3razz/crossLang/main/CHANGELOG.txt",
+  "changelog_url": "https://raw.githubusercontent.com/k3razz/crossLang/main/changelog_v1_1.txt",
   "rules": {
     "1.0": {
       "action": "suggest",
