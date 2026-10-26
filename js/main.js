@@ -1,12 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
-  // 1. ЛОГИКА ЗАГРУЗКИ ДАННЫХ (ВЕРСИЯ И СТАТУС)
+  // 1. ЗАГРУЗКА ВЕРСИИ ИЗ /launcher.json
   // ==========================================
-  
-  // Загружаем версию из /launcher.json
   fetch('/launcher.json')
     .then(response => {
-      if (!response.ok) throw new Error('Ошибка загрузки launcher.json');
+      if (!response.ok) throw new Error('launcher.json not found');
       return response.json();
     })
     .then(data => {
@@ -15,37 +13,33 @@ document.addEventListener('DOMContentLoaded', () => {
         versionElement.textContent = `v${data.latest}`;
       }
     })
-    .catch(error => {
-      console.warn('Не удалось загрузить версию:', error);
-      // Если ошибка, оставляем текст по умолчанию
-    });
+    .catch(err => console.warn('Ошибка загрузки версии:', err));
 
-  // Загружаем статус из /api/status.json
-  fetch('/api/status.json')
+
+  // ==========================================
+  // 2. ЗАГРУЗКА СТАТУСА ИЗ /api/status
+  // ==========================================
+  fetch('/api/status')
     .then(response => {
-      if (!response.ok) throw new Error('Ошибка загрузки status.json');
+      if (!response.ok) throw new Error('api/status not found');
       return response.json();
     })
     .then(data => {
       const statusElement = document.getElementById('launcher-status');
       if (statusElement) {
-        // Формат ответа: [{"main": {"status": "beta"}}]
-        // Берем статус из main.status
+        // Ожидаемый формат: [{"main": {"status": "beta"}}]
         if (Array.isArray(data) && data[0] && data[0].main) {
           statusElement.textContent = `Status: ${data[0].main.status}`;
         } else if (data.main) {
-          // На случай, если API вернет просто {"main": {...}}
           statusElement.textContent = `Status: ${data.main.status}`;
         }
       }
     })
-    .catch(error => {
-      console.warn('Не удалось загрузить статус:', error);
-    });
+    .catch(err => console.warn('Ошибка загрузки статуса:', err));
 
 
   // ==========================================
-  // 2. ЛОГИКА ЧАСТИЦ (ДОЖДЬ)
+  // 3. АНИМАЦИЯ ЧАСТИЦ (ДОЖДЬ)
   // ==========================================
   const canvas = document.getElementById('particles-canvas');
   if (!canvas) return;
@@ -63,29 +57,20 @@ document.addEventListener('DOMContentLoaded', () => {
   resizeCanvas();
 
   class Particle {
-    constructor() { 
-      this.reset(); 
-      this.y = Math.random() * height; 
-    }
+    constructor() { this.reset(); this.y = Math.random() * height; }
     reset() {
-      this.x = Math.random() * width * 1.5; 
-      this.y = -Math.random() * height;
+      this.x = Math.random() * width * 1.5; this.y = -Math.random() * height;
       this.speed = Math.random() * (maxSpeed - minSpeed) + minSpeed;
       this.length = Math.random() * (maxLength - minLength) + minLength;
       this.opacity = Math.random() * 0.3 + 0.1;
     }
     update() {
-      this.y += this.speed; 
-      this.x -= this.speed * Math.tan(angle);
+      this.y += this.speed; this.x -= this.speed * Math.tan(angle);
       if (this.y > height || this.x < -this.length) this.reset();
     }
     draw() {
-      ctx.beginPath(); 
-      ctx.strokeStyle = `rgba(180, 180, 180, ${this.opacity})`; 
-      ctx.lineWidth = 1;
-      ctx.moveTo(this.x, this.y); 
-      ctx.lineTo(this.x - this.length * Math.tan(angle), this.y + this.length); 
-      ctx.stroke();
+      ctx.beginPath(); ctx.strokeStyle = `rgba(180, 180, 180, ${this.opacity})`; ctx.lineWidth = 1;
+      ctx.moveTo(this.x, this.y); ctx.lineTo(this.x - this.length * Math.tan(angle), this.y + this.length); ctx.stroke();
     }
   }
 
