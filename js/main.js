@@ -3,7 +3,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const profileBlock = document.getElementById('profile-block');
   const btnLogin = document.getElementById('btn-login');
   const btnRegister = document.getElementById('btn-register');
-  const btnLogout = document.getElementById('btn-logout');
+  
+  const btnLogoutX = document.getElementById('btn-logout-x');
+  const logoutModal = document.getElementById('logout-modal');
+  const btnCancelLogout = document.getElementById('btn-cancel-logout');
+  const btnConfirmLogout = document.getElementById('btn-confirm-logout');
+  
   const authError = document.getElementById('auth-error');
 
   // 1. ПРОВЕРКА АВТОРИЗАЦИИ ПРИ ЗАГРУЗКЕ
@@ -17,23 +22,17 @@ document.addEventListener('DOMContentLoaded', () => {
       throw new Error('Token invalid');
     })
     .then(user => {
-      // Показываем профиль
       authBlock.style.display = 'none';
       profileBlock.style.display = 'block';
 
-      // Заполняем данные
       document.getElementById('user-name').textContent = user.username;
       document.getElementById('user-date').textContent = user.register_date;
       
-      // Устанавливаем бейдж роли
       const roleBadge = document.getElementById('user-role-badge');
       roleBadge.textContent = user.role.toUpperCase();
-      // Очищаем предыдущие классы
-      roleBadge.className = 'role-badge'; 
-      // Добавляем класс роли (например, role-admin, role-user)
+      roleBadge.className = 'role-badge';
       roleBadge.classList.add(`role-${user.role}`);
 
-      // Загружаем версию и статус (как и раньше)
       loadVersionAndStatus();
     })
     .catch(() => {
@@ -85,8 +84,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 4. ЛОГИКА ВЫХОДА
-  btnLogout.addEventListener('click', () => {
+  // 4. ЛОГИКА ВЫХОДА (МОДАЛЬНОЕ ОКНО)
+  btnLogoutX.addEventListener('click', () => {
+    logoutModal.style.display = 'flex';
+  });
+
+  btnCancelLogout.addEventListener('click', () => {
+    logoutModal.style.display = 'none';
+  });
+
+  btnConfirmLogout.addEventListener('click', () => {
     localStorage.removeItem('token');
     window.location.reload();
   });
@@ -103,6 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => authError.style.display = 'none', 3000);
   }
 
+  // ИСПРАВЛЕНО: путь к статусу теперь /api/status.json
   function loadVersionAndStatus() {
     fetch('/launcher.json')
       .then(res => res.json())
@@ -111,14 +119,20 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .catch(() => {});
 
-    fetch('/api/status')
+    fetch('/api/status.json') // <--- ИСПРАВЛЕНО ЗДЕСЬ
       .then(res => res.json())
       .then(data => {
+        // Учитываем формат, который вы скинули ранее: [{"main": {"status": "beta"}}]
         if (Array.isArray(data) && data[0] && data[0].main) {
           document.getElementById('launcher-status').textContent = `Status: ${data[0].main.status}`;
+        } else if (data.main) {
+          document.getElementById('launcher-status').textContent = `Status: ${data.main.status}`;
         }
       })
-      .catch(() => {});
+      .catch(err => {
+        console.warn('Не удалось загрузить статус:', err);
+        document.getElementById('launcher-status').textContent = `Status: offline`;
+      });
   }
 
   // ==========================================
