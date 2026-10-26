@@ -4,19 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CrossLauncher — Кабинет</title>
-  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
   <canvas id="particles-canvas"></canvas>
 
   <header>
     <nav class="navbar" aria-label="Основная навигация">
-      <a class="brand" href="../index.html"><span>Cross</span>Launcher</a>
+      <a class="brand" href="/"><span>Cross</span>Launcher</a>
       <span class="nav-arrow" aria-hidden="true">▸</span>
       <div class="nav-links">
-        <a href="../index.html">Главная</a>
+        <a href="/">Главная</a>
         <span class="dot">•</span>
-        <a href="about.html">О проекте</a>
+        <a href="/html/about.html">О проекте</a>
         <span class="dot">•</span>
         <a href="#" onclick="alert('Раздел в разработке')">Скачать</a>
         <a class="account-link active">Кабинет</a>
@@ -38,13 +38,13 @@
 
           <div class="info-row">
             <div class="info-bar">
-              <!-- Добавили ID для версии -->
-              <span id="launcher-version">v{launcher-version}</span>
+              <!-- Сюда подставится версия из /launcher.json -->
+              <span id="launcher-version">v... </span>
             </div>
             
             <div class="info-bar">
-              <!-- Добавили ID для статуса -->
-              <span id="launcher-status">Status: {status}</span>
+              <!-- Сюда подставится статус из /api/status -->
+              <span id="launcher-status">Status: ...</span>
             </div>
           </div>
         </div>
@@ -59,6 +59,6 @@
     <div>CrossLauncher is not affiliated with Mojang Studios or Microsoft.</div>
   </footer>
 
-  <script src="../js/main.js"></script>
+  <script src="/js/main.js"></script>
 </body>
 </html>
