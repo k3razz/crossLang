@@ -2,11 +2,16 @@
   "latest": "1.1",
   "changelog_url": "https://raw.githubusercontent.com/k3razz/crossLang/main/CHANGELOG.txt",
   "rules": {
-    "1.1": {
-      "action": "ok"
-    },
     "1.0": {
-      "action": "suggest"
+      "action": "suggest",
+      "url": "https://raw.githubusercontent.com/k3razz/crossLang/main/CHANGELOG.txt",
+      "download_url": "https://github.com/k3razz/crossLang/releases/download/1.0/CrossLauncher.exe",
+      "changelog": "https://crossapi.nukedlcclient.workers.dev/changelog_v1_1.txt",
+      "message": "Доступна версия 1.1. Скачайте обновление."
+    },
+    "1.1": {
+      "action": "ok",
+      "changelog": "https://crossapi.nukedlcclient.workers.dev/changelog_v1_1.txt"
     }
   }
 }
