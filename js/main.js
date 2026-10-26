@@ -1,41 +1,50 @@
 document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
+  // НАСТРОЙКА БЕТА-ТЕСТА
+  // true  = проверять роль (user не может качать)
+  // false = разрешить скачивание всем
+  // ==========================================
+  const isBetaTestActive = true; 
+
+  // ==========================================
   // 1. ЛОГИКА ДЛЯ СТРАНИЦЫ СКАЧИВАНИЯ
   // ==========================================
   const downloadAccess = document.getElementById('download-access');
   const downloadDenied = document.getElementById('download-denied');
 
   if (downloadAccess && downloadDenied) {
-    const token = localStorage.getItem('token');
-    
-    if (token) {
-      fetch('/api/me', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      })
-      .then(res => res.ok ? res.json() : Promise.reject())
-      .then(user => {
-        if (user.role === 'user') {
-          // Если роль user — показываем бета-тест
+    if (!isBetaTestActive) {
+      // Если бета-тест выключен, сразу показываем кнопку всем
+      downloadAccess.style.display = 'block';
+      downloadDenied.style.display = 'none';
+    } else {
+      // Если бета-тест включен, проверяем роль
+      const token = localStorage.getItem('token');
+      
+      if (token) {
+        fetch('/api/me', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        })
+        .then(res => res.ok ? res.json() : Promise.reject())
+        .then(user => {
+          if (user.role === 'user') {
+            downloadAccess.style.display = 'none';
+            downloadDenied.style.display = 'block';
+          } else {
+            downloadAccess.style.display = 'block';
+            downloadDenied.style.display = 'none';
+          }
+        })
+        .catch(() => {
           downloadAccess.style.display = 'none';
           downloadDenied.style.display = 'block';
-        } else {
-          // Если роль другая — даем скачать
-          downloadAccess.style.display = 'block';
-          downloadDenied.style.display = 'none';
-        }
-      })
-      .catch(() => {
-        // Если токен невалидный
+        });
+      } else {
         downloadAccess.style.display = 'none';
         downloadDenied.style.display = 'block';
-      });
-    } else {
-      // Если не авторизован
-      downloadAccess.style.display = 'none';
-      downloadDenied.style.display = 'block';
+      }
     }
   }
-
 
   // ==========================================
   // 2. ЛОГИКА ДЛЯ КАБИНЕТА (ВХОД/ВЫХОД)
