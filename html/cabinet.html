@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CrossLauncher — Кабинет</title>
-  <!-- Путь к CSS из папки html на уровень выше -->
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -12,7 +11,6 @@
 
   <header>
     <nav class="navbar" aria-label="Основная навигация">
-      <!-- Ссылка на главную из папки html -->
       <a class="brand" href="../index.html"><span>Cross</span>Launcher</a>
       <span class="nav-arrow" aria-hidden="true">▸</span>
       <div class="nav-links">
@@ -40,11 +38,13 @@
 
           <div class="info-row">
             <div class="info-bar">
-              <span>v{launcher-version}</span>
+              <!-- Добавили ID для версии -->
+              <span id="launcher-version">v{launcher-version}</span>
             </div>
             
             <div class="info-bar">
-              <span>Status: {status}</span>
+              <!-- Добавили ID для статуса -->
+              <span id="launcher-status">Status: {status}</span>
             </div>
           </div>
         </div>
@@ -59,7 +59,6 @@
     <div>CrossLauncher is not affiliated with Mojang Studios or Microsoft.</div>
   </footer>
 
-  <!-- Путь к JS из папки html на уровень выше -->
   <script src="../js/main.js"></script>
 </body>
 </html>
