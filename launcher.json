@@ -3,7 +3,7 @@
   "changelog_url": "https://raw.githubusercontent.com/k3razz/crossLang/main/changelog_v1_1.txt",
   "rules": {
     "1.0": {
-      "action": "suggest",
+      "action": "force",
       "url": "https://raw.githubusercontent.com/k3razz/crossLang/main/CHANGELOG.txt",
       "download_url": "https://github.com/k3razz/crossLang/releases/download/1.1/CrossLauncher.exe",
       "changelog": "https://crossapi.nukedlcclient.workers.dev/changelog_v1_1.txt",
