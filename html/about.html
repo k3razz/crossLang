@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CrossLauncher — О проекте</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <canvas id="particles-canvas"></canvas>
+
+  <header>
+    <nav class="navbar" aria-label="Основная навигация">
+      <a class="brand" href="/"><span>Cross</span>Launcher</a>
+      <span class="nav-arrow" aria-hidden="true">▸</span>
+      <div class="nav-links">
+        <a href="/">Главная</a>
+        <span class="dot">•</span>
+        <a class="active">О проекте</a>
+        <span class="dot">•</span>
+        <a href="#" onclick="alert('Раздел в разработке')">Скачать</a>
+        <a href="/html/cabinet.html" class="account-link">Кабинет</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="content-container">
+    <div class="panel">
+      <div class="about-title">Безопасность и Конфиденциальность</div>
+      <ol>
+        <li>Наш лаунчер полностью безопасен на вирусы. VirusTotal показывает 1(фолз-детект) из 70 обнаружений.</li>
+        <li>Ваши данные не уходят с сайта и лаунчера. Всё, что получает сеть : Ваш никнейм в игре.</li>
+      </ol>
+    </div>
+
+    <div class="panel">
+      <div class="qa-block">
+        <div class="qa-question">1. Как мы получаем версии?</div>
+        <div class="qa-answer">Мы используем библиотеку CmlLib для работы с версиями.</div>
+      </div>
+      <div class="qa-block">
+        <div class="qa-question">2. Когда открылся проект?</div>
+        <div class="qa-answer">
+          Проэкт “Cross” открылся 23 октября 2026 года.<br>
+          Первый Бета Тест запустился 26 октября 2026 года.<br>
+          Релиз состоялся -- октября 2026 года.
+        </div>
+      </div>
+      <div class="qa-block">
+        <div class="qa-question">3. Что такое CrossAPI?</div>
+        <div class="qa-answer">
+          CrossAPI - это API, которое использует лаунчер. Благодаря нему, мы получаем информацию о новых версий, получение новостей, получение и запрос обновлений лаунчера, а так же система аккаунтов.
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div>© 2026 CrossLauncher</div>
+    <div>CrossLauncher is not affiliated with Mojang Studios or Microsoft.</div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>
