@@ -25,32 +25,49 @@
   </header>
 
   <main class="content-container">
-    <div class="cabinet-panel">
+    <!-- БЛОК АВТОРИЗАЦИИ (показывается, если нет токена) -->
+    <div id="auth-block" class="cabinet-panel" style="display: none; max-width: 400px; margin: 0 auto;">
+      <h2 style="text-align: center; color: #b9dcff; margin-bottom: 20px;">Вход в аккаунт</h2>
+      
+      <div style="display: flex; flex-direction: column; gap: 15px;">
+        <input type="text" id="auth-username" placeholder="Никнейм" style="padding: 12px; border-radius: 10px; border: 1px solid #3d536f; background: #0b111a; color: white; font-family: monospace;">
+        <input type="password" id="auth-password" placeholder="Пароль" style="padding: 12px; border-radius: 10px; border: 1px solid #3d536f; background: #0b111a; color: white; font-family: monospace;">
+        
+        <button id="btn-login" style="padding: 12px; border-radius: 10px; border: none; background: #42b9ff; color: #000; font-weight: bold; cursor: pointer;">Войти</button>
+        <button id="btn-register" style="padding: 12px; border-radius: 10px; border: none; background: #3d536f; color: #fff; font-weight: bold; cursor: pointer;">Зарегистрироваться</button>
+      </div>
+      <p id="auth-error" style="color: #ff4d4d; text-align: center; margin-top: 10px; font-size: 14px; display: none;"></p>
+    </div>
+
+    <!-- БЛОК ПРОФИЛЯ (показывается, если есть токен) -->
+    <div id="profile-block" class="cabinet-panel" style="display: none;">
       <div class="profile-header">
         <div class="avatar">?</div>
         
         <div class="info-column">
+          <!-- Блок с ником и ролью -->
           <div class="info-bar">
-            <span class="admin-tag">ADMIN</span>
-            <span>{username}</span>
-            <span>{register-date}</span>
+            <span id="user-role-badge" class="role-badge role-user">USER</span>
+            <span id="user-name">username</span>
+            <span id="user-date">register-date</span>
           </div>
 
+          <!-- Блок с версией и статусом -->
           <div class="info-row">
             <div class="info-bar">
-              <!-- Сюда подставится версия из /launcher.json -->
-              <span id="launcher-version">v... </span>
+              <span id="launcher-version">v...</span>
             </div>
-            
             <div class="info-bar">
-              <!-- Сюда подставится статус из /api/status -->
               <span id="launcher-status">Status: ...</span>
             </div>
           </div>
         </div>
       </div>
       
-      <div class="profile-body"></div>
+      <div class="profile-body">
+        <!-- Кнопка выхода -->
+        <button id="btn-logout" style="margin-top: 20px; padding: 10px; background: #e60000; color: white; border: none; border-radius: 8px; cursor: pointer; width: 100%;">Выйти</button>
+      </div>
     </div>
   </main>
 
