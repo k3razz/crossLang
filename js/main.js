@@ -1,58 +1,136 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // ==========================================
-  // 1. ЗАГРУЗКА ВЕРСИИ ИЗ /launcher.json
-  // ==========================================
-  fetch('/launcher.json')
-    .then(response => {
-      if (!response.ok) throw new Error('launcher.json not found');
-      return response.json();
+  const authBlock = document.getElementById('auth-block');
+  const profileBlock = document.getElementById('profile-block');
+  const btnLogin = document.getElementById('btn-login');
+  const btnRegister = document.getElementById('btn-register');
+  const btnLogout = document.getElementById('btn-logout');
+  const authError = document.getElementById('auth-error');
+
+  // 1. ПРОВЕРКА АВТОРИЗАЦИИ ПРИ ЗАГРУЗКЕ
+  const token = localStorage.getItem('token');
+  if (token) {
+    fetch('/api/me', {
+      headers: { 'Authorization': `Bearer ${token}` }
     })
+    .then(res => {
+      if (res.ok) return res.json();
+      throw new Error('Token invalid');
+    })
+    .then(user => {
+      // Показываем профиль
+      authBlock.style.display = 'none';
+      profileBlock.style.display = 'block';
+
+      // Заполняем данные
+      document.getElementById('user-name').textContent = user.username;
+      document.getElementById('user-date').textContent = user.register_date;
+      
+      // Устанавливаем бейдж роли
+      const roleBadge = document.getElementById('user-role-badge');
+      roleBadge.textContent = user.role.toUpperCase();
+      // Очищаем предыдущие классы
+      roleBadge.className = 'role-badge'; 
+      // Добавляем класс роли (например, role-admin, role-user)
+      roleBadge.classList.add(`role-${user.role}`);
+
+      // Загружаем версию и статус (как и раньше)
+      loadVersionAndStatus();
+    })
+    .catch(() => {
+      localStorage.removeItem('token');
+      showAuth();
+    });
+  } else {
+    showAuth();
+  }
+
+  // 2. ЛОГИКА ВХОДА
+  btnLogin.addEventListener('click', () => {
+    const username = document.getElementById('auth-username').value;
+    const password = document.getElementById('auth-password').value;
+
+    fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    })
+    .then(res => res.json())
     .then(data => {
-      const versionElement = document.getElementById('launcher-version');
-      if (versionElement && data.latest) {
-        versionElement.textContent = `v${data.latest}`;
+      if (data.success) {
+        localStorage.setItem('token', data.token);
+        window.location.reload();
+      } else {
+        showError(data.error);
       }
-    })
-    .catch(err => console.warn('Ошибка загрузки версии:', err));
+    });
+  });
 
+  // 3. ЛОГИКА РЕГИСТРАЦИИ
+  btnRegister.addEventListener('click', () => {
+    const username = document.getElementById('auth-username').value;
+    const password = document.getElementById('auth-password').value;
 
-  // ==========================================
-  // 2. ЗАГРУЗКА СТАТУСА ИЗ /api/status
-  // ==========================================
-  fetch('/api/status')
-    .then(response => {
-      if (!response.ok) throw new Error('api/status not found');
-      return response.json();
+    fetch('/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
     })
+    .then(res => res.json())
     .then(data => {
-      const statusElement = document.getElementById('launcher-status');
-      if (statusElement) {
-        // Ожидаемый формат: [{"main": {"status": "beta"}}]
+      if (data.success) {
+        alert('Регистрация успешна! Теперь войдите.');
+      } else {
+        showError(data.error);
+      }
+    });
+  });
+
+  // 4. ЛОГИКА ВЫХОДА
+  btnLogout.addEventListener('click', () => {
+    localStorage.removeItem('token');
+    window.location.reload();
+  });
+
+  // Вспомогательные функции
+  function showAuth() {
+    authBlock.style.display = 'block';
+    profileBlock.style.display = 'none';
+  }
+
+  function showError(msg) {
+    authError.textContent = msg;
+    authError.style.display = 'block';
+    setTimeout(() => authError.style.display = 'none', 3000);
+  }
+
+  function loadVersionAndStatus() {
+    fetch('/launcher.json')
+      .then(res => res.json())
+      .then(data => {
+        if (data.latest) document.getElementById('launcher-version').textContent = `v${data.latest}`;
+      })
+      .catch(() => {});
+
+    fetch('/api/status')
+      .then(res => res.json())
+      .then(data => {
         if (Array.isArray(data) && data[0] && data[0].main) {
-          statusElement.textContent = `Status: ${data[0].main.status}`;
-        } else if (data.main) {
-          statusElement.textContent = `Status: ${data.main.status}`;
+          document.getElementById('launcher-status').textContent = `Status: ${data[0].main.status}`;
         }
-      }
-    })
-    .catch(err => console.warn('Ошибка загрузки статуса:', err));
-
+      })
+      .catch(() => {});
+  }
 
   // ==========================================
-  // 3. АНИМАЦИЯ ЧАСТИЦ (ДОЖДЬ)
+  // АНИМАЦИЯ ЧАСТИЦ
   // ==========================================
   const canvas = document.getElementById('particles-canvas');
   if (!canvas) return;
-
   const ctx = canvas.getContext('2d');
   let width, height, particles = [];
   const particleCount = 120, minSpeed = 6, maxSpeed = 15, minLength = 15, maxLength = 40, angle = Math.PI / 4;
 
-  function resizeCanvas() { 
-    width = canvas.width = window.innerWidth; 
-    height = canvas.height = window.innerHeight; 
-  }
-  
+  function resizeCanvas() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
   window.addEventListener('resize', resizeCanvas);
   resizeCanvas();
 
@@ -73,14 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.moveTo(this.x, this.y); ctx.lineTo(this.x - this.length * Math.tan(angle), this.y + this.length); ctx.stroke();
     }
   }
-
   for (let i = 0; i < particleCount; i++) particles.push(new Particle());
-  
-  function animate() { 
-    ctx.clearRect(0, 0, width, height); 
-    particles.forEach(p => { p.update(); p.draw(); }); 
-    requestAnimationFrame(animate); 
-  }
-  
+  function animate() { ctx.clearRect(0, 0, width, height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
   animate();
 });
