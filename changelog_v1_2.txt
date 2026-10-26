@@ -1,0 +1,4 @@
+# v1.2
+
+Fixed update message (Added roundting to buttons and etc);
+Fixed some bugs
