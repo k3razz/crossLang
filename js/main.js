@@ -1,4 +1,45 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // ==========================================
+  // 1. ЛОГИКА ДЛЯ СТРАНИЦЫ СКАЧИВАНИЯ
+  // ==========================================
+  const downloadAccess = document.getElementById('download-access');
+  const downloadDenied = document.getElementById('download-denied');
+
+  if (downloadAccess && downloadDenied) {
+    const token = localStorage.getItem('token');
+    
+    if (token) {
+      fetch('/api/me', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      })
+      .then(res => res.ok ? res.json() : Promise.reject())
+      .then(user => {
+        if (user.role === 'user') {
+          // Если роль user — показываем бета-тест
+          downloadAccess.style.display = 'none';
+          downloadDenied.style.display = 'block';
+        } else {
+          // Если роль другая — даем скачать
+          downloadAccess.style.display = 'block';
+          downloadDenied.style.display = 'none';
+        }
+      })
+      .catch(() => {
+        // Если токен невалидный
+        downloadAccess.style.display = 'none';
+        downloadDenied.style.display = 'block';
+      });
+    } else {
+      // Если не авторизован
+      downloadAccess.style.display = 'none';
+      downloadDenied.style.display = 'block';
+    }
+  }
+
+
+  // ==========================================
+  // 2. ЛОГИКА ДЛЯ КАБИНЕТА (ВХОД/ВЫХОД)
+  // ==========================================
   const authBlock = document.getElementById('auth-block');
   const profileBlock = document.getElementById('profile-block');
   const btnLogin = document.getElementById('btn-login');
@@ -11,16 +52,13 @@ document.addEventListener('DOMContentLoaded', () => {
   
   const authError = document.getElementById('auth-error');
 
-  // 1. ПРОВЕРКА АВТОРИЗАЦИИ ПРИ ЗАГРУЗКЕ
+  // Проверка авторизации
   const token = localStorage.getItem('token');
-  if (token) {
+  if (token && authBlock && profileBlock) {
     fetch('/api/me', {
       headers: { 'Authorization': `Bearer ${token}` }
     })
-    .then(res => {
-      if (res.ok) return res.json();
-      throw new Error('Token invalid');
-    })
+    .then(res => res.ok ? res.json() : Promise.reject())
     .then(user => {
       authBlock.style.display = 'none';
       profileBlock.style.display = 'block';
@@ -37,68 +75,77 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .catch(() => {
       localStorage.removeItem('token');
-      showAuth();
+      if(authBlock && profileBlock) showAuth();
     });
-  } else {
+  } else if (authBlock && profileBlock) {
     showAuth();
   }
 
-  // 2. ЛОГИКА ВХОДА
-  btnLogin.addEventListener('click', () => {
-    const username = document.getElementById('auth-username').value;
-    const password = document.getElementById('auth-password').value;
+  // Вход
+  if (btnLogin) {
+    btnLogin.addEventListener('click', () => {
+      const username = document.getElementById('auth-username').value;
+      const password = document.getElementById('auth-password').value;
 
-    fetch('/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
-    })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        localStorage.setItem('token', data.token);
-        window.location.reload();
-      } else {
-        showError(data.error);
-      }
+      fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          localStorage.setItem('token', data.token);
+          window.location.reload();
+        } else {
+          showError(data.error);
+        }
+      });
     });
-  });
+  }
 
-  // 3. ЛОГИКА РЕГИСТРАЦИИ
-  btnRegister.addEventListener('click', () => {
-    const username = document.getElementById('auth-username').value;
-    const password = document.getElementById('auth-password').value;
+  // Регистрация
+  if (btnRegister) {
+    btnRegister.addEventListener('click', () => {
+      const username = document.getElementById('auth-username').value;
+      const password = document.getElementById('auth-password').value;
 
-    fetch('/api/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
-    })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        alert('Регистрация успешна! Теперь войдите.');
-      } else {
-        showError(data.error);
-      }
+      fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert('Регистрация успешна! Теперь войдите.');
+        } else {
+          showError(data.error);
+        }
+      });
     });
-  });
+  }
 
-  // 4. ЛОГИКА ВЫХОДА (МОДАЛЬНОЕ ОКНО)
-  btnLogoutX.addEventListener('click', () => {
-    logoutModal.style.display = 'flex';
-  });
+  // Выход
+  if (btnLogoutX) {
+    btnLogoutX.addEventListener('click', () => {
+      logoutModal.style.display = 'flex';
+    });
+  }
 
-  btnCancelLogout.addEventListener('click', () => {
-    logoutModal.style.display = 'none';
-  });
+  if (btnCancelLogout) {
+    btnCancelLogout.addEventListener('click', () => {
+      logoutModal.style.display = 'none';
+    });
+  }
 
-  btnConfirmLogout.addEventListener('click', () => {
-    localStorage.removeItem('token');
-    window.location.reload();
-  });
+  if (btnConfirmLogout) {
+    btnConfirmLogout.addEventListener('click', () => {
+      localStorage.removeItem('token');
+      window.location.reload();
+    });
+  }
 
-  // Вспомогательные функции
   function showAuth() {
     authBlock.style.display = 'block';
     profileBlock.style.display = 'none';
@@ -110,33 +157,37 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => authError.style.display = 'none', 3000);
   }
 
-  // ИСПРАВЛЕНО: путь к статусу теперь /api/status.json
   function loadVersionAndStatus() {
     fetch('/launcher.json')
       .then(res => res.json())
       .then(data => {
-        if (data.latest) document.getElementById('launcher-version').textContent = `v${data.latest}`;
+        if (data.latest && document.getElementById('launcher-version')) {
+          document.getElementById('launcher-version').textContent = `v${data.latest}`;
+        }
       })
       .catch(() => {});
 
-    fetch('/api/status.json') // <--- ИСПРАВЛЕНО ЗДЕСЬ
+    fetch('/api/status.json')
       .then(res => res.json())
       .then(data => {
-        // Учитываем формат, который вы скинули ранее: [{"main": {"status": "beta"}}]
-        if (Array.isArray(data) && data[0] && data[0].main) {
-          document.getElementById('launcher-status').textContent = `Status: ${data[0].main.status}`;
-        } else if (data.main) {
-          document.getElementById('launcher-status').textContent = `Status: ${data.main.status}`;
+        if (document.getElementById('launcher-status')) {
+          if (Array.isArray(data) && data[0] && data[0].main) {
+            document.getElementById('launcher-status').textContent = `Status: ${data[0].main.status}`;
+          } else if (data.main) {
+            document.getElementById('launcher-status').textContent = `Status: ${data.main.status}`;
+          }
         }
       })
-      .catch(err => {
-        console.warn('Не удалось загрузить статус:', err);
-        document.getElementById('launcher-status').textContent = `Status: offline`;
+      .catch(() => {
+        if (document.getElementById('launcher-status')) {
+          document.getElementById('launcher-status').textContent = `Status: offline`;
+        }
       });
   }
 
+
   // ==========================================
-  // АНИМАЦИЯ ЧАСТИЦ
+  // 3. АНИМАЦИЯ ЧАСТИЦ
   // ==========================================
   const canvas = document.getElementById('particles-canvas');
   if (!canvas) return;
