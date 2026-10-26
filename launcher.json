@@ -1,7 +1,10 @@
 {
-  "latest": "1.0",
+  "latest": "1.1",
   "changelog_url": "https://raw.githubusercontent.com/k3razz/crossLang/main/CHANGELOG.txt",
   "rules": {
+    "1.1": {
+      "action": "ok"
+    },
     "1.0": {
       "action": "ok"
     }
