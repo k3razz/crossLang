@@ -25,7 +25,7 @@
   </header>
 
   <main class="content-container">
-    <!-- БЛОК АВТОРИЗАЦИИ (показывается, если нет токена) -->
+    <!-- БЛОК АВТОРИЗАЦИИ -->
     <div id="auth-block" class="cabinet-panel" style="display: none; max-width: 400px; margin: 0 auto;">
       <h2 style="text-align: center; color: #b9dcff; margin-bottom: 20px;">Вход в аккаунт</h2>
       
@@ -39,7 +39,7 @@
       <p id="auth-error" style="color: #ff4d4d; text-align: center; margin-top: 10px; font-size: 14px; display: none;"></p>
     </div>
 
-    <!-- БЛОК ПРОФИЛЯ (показывается, если есть токен) -->
+    <!-- БЛОК ПРОФИЛЯ -->
     <div id="profile-block" class="cabinet-panel" style="display: none;">
       <div class="profile-header">
         <div class="avatar">?</div>
@@ -52,22 +52,21 @@
             <span id="user-date">register-date</span>
           </div>
 
-          <!-- Блок с версией и статусом -->
+          <!-- Блок с версией и статусом + кнопка выхода -->
           <div class="info-row">
             <div class="info-bar">
               <span id="launcher-version">v...</span>
             </div>
-            <div class="info-bar">
+            <div class="info-bar" style="display: flex; align-items: center; gap: 10px;">
               <span id="launcher-status">Status: ...</span>
+              <!-- Красная кнопка X -->
+              <button id="btn-logout-x" style="background: #e60000; color: white; border: none; border-radius: 50%; width: 24px; height: 24px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; padding: 0;">X</button>
             </div>
           </div>
         </div>
       </div>
       
-      <div class="profile-body">
-        <!-- Кнопка выхода -->
-        <button id="btn-logout" style="margin-top: 20px; padding: 10px; background: #e60000; color: white; border: none; border-radius: 8px; cursor: pointer; width: 100%;">Выйти</button>
-      </div>
+      <div class="profile-body"></div>
     </div>
   </main>
 
@@ -75,6 +74,18 @@
     <div>© 2026 CrossLauncher</div>
     <div>CrossLauncher is not affiliated with Mojang Studios or Microsoft.</div>
   </footer>
+
+  <!-- МОДАЛЬНОЕ ОКНО ПОДТВЕРЖДЕНИЯ ВЫХОДА -->
+  <div id="logout-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.7); z-index: 1000; justify-content: center; align-items: center;">
+    <div style="background: #0b111a; padding: 30px; border-radius: 20px; text-align: center; border: 1px solid #3d536f; max-width: 300px; width: 90%;">
+      <h3 style="margin-top: 0; color: #fff;">Выход из аккаунта</h3>
+      <p style="color: #b9d9f2; margin-bottom: 25px;">Вы уверены, что хотите выйти?</p>
+      <div style="display: flex; gap: 15px; justify-content: center;">
+        <button id="btn-cancel-logout" style="padding: 10px 20px; border-radius: 10px; border: none; background: #3d536f; color: white; cursor: pointer; font-weight: bold;">Отмена</button>
+        <button id="btn-confirm-logout" style="padding: 10px 20px; border-radius: 10px; border: none; background: #e60000; color: white; cursor: pointer; font-weight: bold;">Выйти</button>
+      </div>
+    </div>
+  </div>
 
   <script src="/js/main.js"></script>
 </body>
