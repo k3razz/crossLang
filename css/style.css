@@ -149,16 +149,64 @@ li:last-child { margin-bottom: 0; }
   width: fit-content;
 }
 
-.admin-tag {
-  background-color: #ff1a1a;
+/* =========================================
+   БЕЙДЖИ РОЛЕЙ (ЦВЕТА ИЗ SVG)
+   ========================================= */
+
+.role-badge {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 700;
   color: white;
-  font-size: 12px;
-  font-weight: bold;
-  padding: 2px 8px;
-  border-radius: 5px;
-  font-family: sans-serif;
-  line-height: 1.2;
+  padding: 4px 12px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
+
+/* Админ (Левый верхний) */
+.role-admin { background: radial-gradient(circle at center, #FF0000 0%, #F42828 100%); }
+
+/* Девелопер (Правый верхний) */
+.role-dev { background: radial-gradient(circle at center, #FF0000 0%, #F42828 100%); }
+
+/* Бета (Левый второй) */
+.role-beta { background: radial-gradient(circle at center, #006FFF 0%, #0048FE 100%); }
+
+/* Саппорт (Правый второй) */
+.role-support { background: radial-gradient(circle at center, #1100FF 0%, #5C3DE4 100%); }
+
+/* Медиа (Левый третий) */
+.role-media { background: radial-gradient(circle at center, #FFD900 0%, #F44628 100%); }
+
+/* Медиа+ (Правый третий) */
+.role-media_plus { background: radial-gradient(circle at center, #FFD900 0%, #F44628 100%); }
+
+/* ML.MOD (Левый четвертый) */
+.role-ml_mod { background: radial-gradient(circle at center, #1100FF 0%, #5C3DE4 100%); }
+
+/* GL.MOD (Правый четвертый) */
+.role-gl_mod { background: radial-gradient(circle at center, #1100FF 0%, #5C3DE4 100%); }
+
+/* MOD (Левый пятый) */
+.role-mod { background: radial-gradient(circle at center, #1100FF 0%, #5C3DE4 100%); }
+
+/* ML.ADMIN (Правый пятый) */
+.role-ml_admin { background: radial-gradient(circle at center, #FF0000 0%, #F42828 100%); }
+
+/* Контрибьютор (Левый шестой) */
+.role-contributor { background: radial-gradient(circle at center, #056B09 0%, #08961D 100%); }
+
+/* Юзер (Правый шестой) */
+.role-user { background: radial-gradient(circle at center, #565656 0%, #3A3A3A 100%); }
+
+/* Спонсор (Левый седьмой) */
+.role-sponsor { background: radial-gradient(circle at center, #056B09 0%, #08961D 100%); }
+
+/* ========================================= */
 
 .profile-body {
   background-color: #05080c;
@@ -189,32 +237,3 @@ footer {
   .info-bar { width: 100%; justify-content: center; }
   .info-row { justify-content: center; width: 100%; }
 }
-
-/* Базовый стиль бейджа */
-.role-badge {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-weight: 700;
-  color: white;
-  padding: 4px 12px;
-  border-radius: 6px;
-  text-transform: uppercase;
-  font-size: 14px;
-  letter-spacing: 0.5px;
-  display: inline-block;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
-
-.role-admin { background-color: #e60000; 
-.role-dev { background-color: #e60000; }
-.role-beta { background-color: #0000ff; }
-.role-support { background-color: #5a32a8; }
-.role-media { background: linear-gradient(90deg, #ff6600, #ff3300); }
-.role-media_plus { background: linear-gradient(90deg, #ff6600, #ff3300); }
-.role-ml_mod { background: linear-gradient(90deg, #6a11cb, #2575fc); }
-.role-gl_mod { background: linear-gradient(90deg, #6a11cb, #2575fc); }
-.role-mod { background: linear-gradient(90deg, #6a11cb, #2575fc); }
-.role-ml_admin { background-color: #e60000; }
-.role-contributor { background-color: #008000; }
-.role-sponsor { background-color: #008000; }
-.role-user { background-color: #333333; color: #ddd; }
