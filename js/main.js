@@ -1,4 +1,52 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // ==========================================
+  // 1. ЛОГИКА ЗАГРУЗКИ ДАННЫХ (ВЕРСИЯ И СТАТУС)
+  // ==========================================
+  
+  // Загружаем версию из /launcher.json
+  fetch('/launcher.json')
+    .then(response => {
+      if (!response.ok) throw new Error('Ошибка загрузки launcher.json');
+      return response.json();
+    })
+    .then(data => {
+      const versionElement = document.getElementById('launcher-version');
+      if (versionElement && data.latest) {
+        versionElement.textContent = `v${data.latest}`;
+      }
+    })
+    .catch(error => {
+      console.warn('Не удалось загрузить версию:', error);
+      // Если ошибка, оставляем текст по умолчанию
+    });
+
+  // Загружаем статус из /api/status.json
+  fetch('/api/status.json')
+    .then(response => {
+      if (!response.ok) throw new Error('Ошибка загрузки status.json');
+      return response.json();
+    })
+    .then(data => {
+      const statusElement = document.getElementById('launcher-status');
+      if (statusElement) {
+        // Формат ответа: [{"main": {"status": "beta"}}]
+        // Берем статус из main.status
+        if (Array.isArray(data) && data[0] && data[0].main) {
+          statusElement.textContent = `Status: ${data[0].main.status}`;
+        } else if (data.main) {
+          // На случай, если API вернет просто {"main": {...}}
+          statusElement.textContent = `Status: ${data.main.status}`;
+        }
+      }
+    })
+    .catch(error => {
+      console.warn('Не удалось загрузить статус:', error);
+    });
+
+
+  // ==========================================
+  // 2. ЛОГИКА ЧАСТИЦ (ДОЖДЬ)
+  // ==========================================
   const canvas = document.getElementById('particles-canvas');
   if (!canvas) return;
 
